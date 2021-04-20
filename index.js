@@ -5,7 +5,7 @@ import fs from 'fs';
 
 // Convert excel sheet into json.
 function excel_to_json() {
-	const filePath = "excel/reports.xlsx",
+	const filePath = "conf/reports.xlsx",
 		buf = fs.readFileSync(filePath),
 		workbook = XLSX.read(buf, {type: 'buffer'});
 
@@ -22,19 +22,15 @@ function excel_to_json() {
 	});
 
 	const result_in_json = JSON.stringify(result, null, 2);
-	// console.log(result_in_json);
-	// console.log("----------------------")
 
-	fs.writeFileSync("output/reports.json", result_in_json);
+	fs.writeFileSync("conf/reports.json", result_in_json);
 }
 
 // Create XLSX workbook to manipulate JSON data as Excel or CSV.
 function createWorkBook() {
-	const filePath = "output/reports.json",
+	const filePath = "conf/reports.json",
 		buffer = fs.readFileSync(filePath),
 		data = JSON.parse(buffer);
-
-	// console.log(data);
 
 	const workbook = XLSX.utils.book_new(),
 	 	worksheet = XLSX.utils.aoa_to_sheet(data);
@@ -48,13 +44,22 @@ function createWorkBook() {
 function json_to_excel() {
 	const workbook = createWorkBook();
 
-	XLSX.writeFile(workbook, "new-reports.xlsx", { bookType: "xlsx" });
+	XLSX.writeFile(
+		workbook, 
+		`output/reports-${Date.now()}.xlsx`, 
+		{ bookType: "xlsx" }
+	);
 }
 
 // Helper funtion to convert JSON to CSV
 function json_to_csv() {
 	const workbook = createWorkBook();
-	XLSX.writeFile(workbook, "new-reports.csv", { bookType: "csv"});
+	
+	XLSX.writeFile(
+		workbook,
+		`output/reports-${Date.now()}.csv`,
+		{ bookType: "csv"}
+	);
 
 	// var result = [];
 	// workbook.SheetNames.forEach((sheetName) => {
@@ -70,4 +75,6 @@ function json_to_csv() {
 	// console.log("result: ", csvString);
 }
 
+
+json_to_csv();
 json_to_excel();
