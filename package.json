@@ -1,0 +1,16 @@
+{
+  "name": "json-excel",
+  "version": "1.0.0",
+  "description": "A small application to convert json to excel, csv",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node index.js"
+  },
+  "dependencies": {
+    "xlsx": "0.16.9"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC"
+}
